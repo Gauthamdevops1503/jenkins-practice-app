@@ -16,28 +16,28 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building the project..."
-                sh 'npm install'
+                bat 'npm install'
             }
         }
 
         stage('Test') {
             steps {
                 echo "Running tests (none for now)..."
-                sh 'echo "No tests yet 🚧"'
+                bat 'echo "No tests yet 🚧"'
             }
         }
 
         stage('Docker Build') {
             steps {
                 echo "Building Docker image..."
-                sh "docker build -t ${IMAGE_NAME}:latest ."
+                bat "docker build -t ${IMAGE_NAME}:latest ."
             }
         }
 
         stage('Docker Run') {
             steps {
                 echo "Running Docker container (for testing)..."
-                sh "docker run -d -p 3000:3000 --name ${IMAGE_NAME}-container ${IMAGE_NAME}:latest"
+                bat "docker run -d -p 3000:3000 --name ${IMAGE_NAME}-container ${IMAGE_NAME}:latest"
             }
         }
     }
@@ -45,7 +45,7 @@ pipeline {
     post {
         always {
             echo "Cleaning up..."
-            sh "docker rm -f ${IMAGE_NAME}-container || true"
+            bat "docker rm -f ${IMAGE_NAME}-container || true"
         }
     }
 }
